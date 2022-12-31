@@ -17,44 +17,49 @@ const client = new Eris(BOT_TOKEN, {
 });
 
 async function sendMessage() {
-  // Get the TikTok app's information from the Google Play store
-  const url =
-    "https://www.googleapis.com/androidpublisher/v3/applications/com.zhiliaoapp.musically";
-  const headers = {
-    Authorization: `Bearer ${CLIENT_SECRET}`,
-  };
-  const params = {
-    packageName: "com.zhiliaoapp.musically",
-  };
-  const response = await fetch(url, { headers, params });
-  const data = await response.json();
+  try {
+    // Get the TikTok app's information from the Google Play store
+    const url =
+      "https://www.googleapis.com/androidpublisher/v3/applications/com.zhiliaoapp.musically";
+    const headers = {
+      Authorization: `Bearer ${CLIENT_SECRET}`,
+    };
+    const params = {
+      packageName: "com.zhiliaoapp.musically",
+    };
+    const response = await fetch(url, { headers, params });
+    const data = await response.json();
 
-  // Check if the TikTok app is available
-  const available = data.available;
-  let status;
-  let emoji;
-  if (available) {
-    status = "available";
-    emoji = "✅";
-  } else {
-    status = "not available";
-    emoji = "❌";
-  }
+    // Check if the TikTok app is available
+    const available = data.available;
+    let status;
+    let emoji;
+    if (available) {
+      status = "available";
+      emoji = "✅";
+    } else {
+      status = "not available";
+      emoji = "❌";
+    }
 
-  // Create an embed with the availability status
-  const embed = new Eris.RichEmbed()
-    .setTitle("TikTok App Availability")
-    .setDescription(`The TikTok app is currently ${status} on the Google Play store.`)
-    .setColor(available ? "GREEN" : "RED")
-    .setTimestamp()
-    .setFooter(emoji);
+    // Create an embed with the availability status
+    const embed = new Eris.RichEmbed()
+      .setTitle("TikTok App Availability")
+      .setDescription(`The TikTok app is currently ${status} on the Google Play store.`)
+      .setColor(available ? "GREEN" : "RED")
+      .setTimestamp()
+      .setFooter(emoji);
 
-  // Send the embed to the specified users
-  for (const userId of USER_IDS) {
-    const user = client.users.get(userId);
-    await user.send({ embed });
+    // Send the embed to the specified users
+    for (const userId of USER_IDS) {
+      const user = client.users.get(userId);
+      await user.send({ embed });
+    }
+  } catch (error) {
+    console.error(error);
   }
 }
+
 
 client.on("ready", () => {
   // Send a message every 24 hours
