@@ -16,6 +16,10 @@ const client = new Eris(BOT_TOKEN, {
   getAllUsers: true,
 });
 
+client.on("error", (error) => {
+  console.error(error);
+});
+
 async function sendMessage() {
   try {
     // Get the TikTok app's information from the Google Play store
