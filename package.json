@@ -1,0 +1,13 @@
+{
+  "name": "tiktok-availability-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot that checks the availability of the TikTok app on the Google Play store and sends a message to specific users.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "eris": "^0.15.11",
+    "node-fetch": "^2.6.1"
+  }
+}
